@@ -11,6 +11,6 @@ const btn = document.getElementById("btn");
 btn.addEventListener("click", function (event) {
   event.preventDefault();
   if (validator.validate()) {
-    alert("Form submitted successfully");
+    alert("Form submitted successfull");
   }
 });
