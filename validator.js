@@ -3,27 +3,31 @@ export default class Validator{
         this.form=form;
         this.inputs=Array.from(form.elements).filter((el)=>el.tagName==="input")
         this.errors={}
+        this.rules = [];
     }
 
     addRules(field,rules){
+       
       this.rules.push({
         field:field,
         rules:rules,
       })  
     }
-    validate(){
-        this.error={};
-        this.inputs.forEach((input)=>{
-            const name=input.getAttribute("name");
-            const method=`validate ${name.charAt(0).toUpperCase()}${name.slice(1)}`;
-            const error=this[method](input);
-            if(error!==true){
-                this.errors[name]=error;
-            }
+    validate() {
+        this.errors = {};
+        let isValid = true;
+        this.inputs.forEach((input) => {
+          const name = input.getAttribute("name");
+          const method = `validate${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+          const error = this[method](input);
+          if (error !== true) {
+            isValid = false;
+            this.errors[name] = error;
+          }
         });
-        return Object.keys(this.errors).length===0;
-    }
-
+        return isValid;
+      }
+      
 
     // method for validating username
     validateUsername(input) {
